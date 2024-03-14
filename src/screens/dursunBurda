@@ -1,0 +1,157 @@
+import { View, Text, Image, ImageBackground, ScrollView, TouchableOpacity, FlatList } from 'react-native'
+import React, {useState} from 'react'
+import { ScaledSheet } from 'react-native-size-matters'
+import { useFonts } from 'expo-font';
+
+const headPhones = require('../../images/headphones.png')
+const titleHeadphones = require('../../images/Group.png')
+const titleGaleri = require('../../images/Normal.png')
+const eser_1 = require('../../images/item_1.png')
+const eser_2 = require('../../images/item_2.png')
+
+const eserler = [
+    { id: '1', src: eser_1, text: 'Eser Adı', subText: 'Alt Başlık & Tarih' },
+    { id: '2', src: eser_2, text: 'Eser Adı', subText: 'Alt Başlık & Tarih' },
+]
+
+const DoguKapisi = () => {
+    const [loaded] = useFonts({
+        Operetta: require('../../../assets/fonts/Operetta8-Regular.otf'),
+        NunitoSans: require('../../../assets/fonts/NunitoSans.ttf')
+    });
+    if (!loaded) {
+        return null;
+    }
+
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    const fullText = "Mihrabın üstünde görülen bu büyük yazıda celî sülüs olarak “Allah celle celâlühû-Muhammed sallallâhü aleyhi ve sellem” ifadeleri yer almaktadır. Sol kısımda daha...";
+
+  return (
+    <View style={styles.container}>
+        <ScrollView >
+            <ImageBackground source={require('../../images/guide-dogu-kapisi.jpg')} style={styles.topImage}>
+                <Text style={styles.imageText}>Doğu Kapısı</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Image source={titleHeadphones} style={styles.titleHeadphones}/>
+                    <Text style={styles.imageText2}>Türkçe & İngilizce</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Image source={titleGaleri } style={styles.titleGaleri}/>
+                        <Text style={styles.imageText3}>40 Hat & Eser</Text>
+                    </View>
+                </View>
+            </ImageBackground>
+            <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
+                <Text style={styles.aciklamaText}>
+                    {isExpanded ? fullText : fullText.substring(0, 140) + "... "}
+                    {!isExpanded && <Text style={styles.buttonText} onPress={() => setIsExpanded(true)}>Daha fazla</Text>}
+                </Text>
+            </View>
+            <View style={styles.title}>
+                <Text style={styles.titleText}>Hatlar & Eserler</Text>
+                <TouchableOpacity style={styles.dinleContainer}>
+                    <Image source={headPhones} style={styles.headPhones}/>
+                    <Text style={styles.dinleText}>Tümünü Dinle</Text>
+                </TouchableOpacity>
+            </View>
+        </ScrollView>
+
+        <FlatList 
+            data={eserler}
+            renderItem={({ item }) => (
+                <TouchableOpacity style={styles.listeContainer}>
+                    <Image source={item.src} style={styles.eserImage}/>
+                    <View style={styles.listeText}>
+                        <Text style={styles.text}>{item.text}</Text>
+                        <Text style={styles.subText}>{item.subText}</Text>
+                    </View>
+                </TouchableOpacity>
+            )}
+        />
+    </View>
+  )
+}
+
+const styles = ScaledSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#181818',
+    },
+    topImage: {
+        width: '100%',
+        height: '343@s',
+    },
+    imageText: {
+        fontFamily: 'Operetta',
+        fontSize: '30@s',
+        color: 'white',
+        marginTop: '270@s',
+        marginStart: '20@s'
+    },
+    titleHeadphones: {
+        marginStart: '20@s',
+        margin: '10@s'
+    },
+    imageText2: {
+        color: 'white',
+        fontFamily: 'NunitoSans',
+    },
+    titleGaleri: {
+        marginStart: '20@s',
+        margin: '10@s'
+    },
+    imageText3: {
+        color: 'white',
+        fontFamily: 'NunitoSans',
+    },
+    aciklamaText: {
+        fontFamily: 'NunitoSans',
+        fontSize: '16@s',
+        color: '#BCBCBC',
+        margin: '10@s'
+    },
+    buttonText: {
+        color: '#EED1AF',
+        textDecorationLine: 'underline',
+    },
+    title: {
+        flexDirection: 'row',
+    },
+    titleText: {
+        fontFamily: 'Operetta',
+        fontSize: '20@s',
+        color: 'white',
+        margin: '10@s'
+    },
+    dinleContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginStart: '70@s'
+    },
+    headPhones: {
+        width: '15@s',
+        height: '15@s'
+    },
+    dinleText: {
+        color: '#EED1AF',
+        fontFamily: 'NunitoSans',
+        fontSize: '14@s',
+        marginStart: '7@s'
+    },
+    listeContainer: {
+        flexDirection: 'row',
+    },
+    text: {
+        color: 'white',
+        fontFamily: 'NunitoSans',
+        fontSize: '18@s',
+    },
+    subText: {
+        color: 'white',
+        fontFamily: 'NunitoSans',
+        fontSize: '14@s',
+    }
+    
+})
+
+export default DoguKapisi
